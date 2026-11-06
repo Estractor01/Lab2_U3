@@ -45,17 +45,17 @@ void control_servo(Servo Serv, int &pos, int &dir, const char *name)
     Serial.print("Servo #");
     Serial.print(name);
     Serial.println(": 0 -> 180");
+    dir = 1;
   }
   if (pos == 180)
   {
     Serial.print("Servo #");
     Serial.print(name);
     Serial.println(": 180 -> 0");
+    dir = -1;
   }
   Serv.write(pos);
 
-  if (pos == 180)    dir = -1;
-  else if (pos == 0) dir = 1;
   pos += dir;
 }
 
