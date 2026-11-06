@@ -15,6 +15,7 @@
 #define TICK_BLUE      10000
 #define TICK_SERVO     15
 
+// Servos
 Servo servo1, servo2;
 
 // Contadores 
@@ -26,9 +27,12 @@ uint32_t SERVO_COUNT  = TICK_SERVO;
 // Estados de los leds
 bool RED_STATE = false, GREEN_STATE = false, BLUE_STATE = false;
 
+// Variables de posición y direccion de los servos
+// Existen para guardar al momento de la ejecucion su posicion y no reescribirla
 int pos1 = 0, dir1 = 1;
 int pos2 = 0, dir2 = 1;
 
+// Control y escritura de leds
 void control_led(uint32_t led, bool &state, const char *name)
 {
   state = !state;
@@ -38,6 +42,8 @@ void control_led(uint32_t led, bool &state, const char *name)
   Serial.println(state ? ": ON" : ": OFF");
   
 }
+
+// Control y escritura de servos
 void control_servo(Servo Serv, int &pos, int &dir, const char *name)
 {
   if (pos == 0)
@@ -59,10 +65,10 @@ void control_servo(Servo Serv, int &pos, int &dir, const char *name)
   pos += dir;
 }
 
+// Setup de pines de leds y servos
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("wawaawa");
   pinMode(RED_LED, OUTPUT);
   digitalWrite(RED_LED, LOW);
   pinMode(GREEN_LED, OUTPUT);
@@ -78,6 +84,9 @@ void setup()
   delay(1000);
 }
 
+// Loop principal: Para realizar un funcionamiento simultáneo todos los procesos tienen su propio "COUNT" y "TICK"
+// Esto sirve para realizar una cuenta cada ciclo de loop en base al delay y "TICK_DELAY" donde entra a la función
+// en su tiempo especificado sin bloquear el resto de funciones
 void loop()
 {
   if (RED_COUNT >= TICK_ROJO)
