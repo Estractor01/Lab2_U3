@@ -14,6 +14,7 @@
 #define TICK_VERDE     5000
 #define TICK_BLUE      10000
 #define TICK_SERVO     15
+#define TICK_LOOP      2000
 
 // Servos
 Servo servo1, servo2;
@@ -23,6 +24,9 @@ uint32_t RED_COUNT    = TICK_ROJO;
 uint32_t GREEN_COUNT  = TICK_VERDE;
 uint32_t BLUE_COUNT   = TICK_BLUE;
 uint32_t SERVO_COUNT  = TICK_SERVO;
+uint32_t loop_count = 0;
+
+int loops = 0;
 
 // Estados de los leds
 bool RED_STATE = false, GREEN_STATE = false, BLUE_STATE = false;
@@ -89,6 +93,7 @@ void setup()
 // en su tiempo especificado sin bloquear el resto de funciones
 void loop()
 {
+  loops++;
   if (RED_COUNT >= TICK_ROJO)
   {
     control_led(RED_LED, RED_STATE, "ROJO");
@@ -113,7 +118,13 @@ void loop()
     control_servo(servo2, pos2, dir2, "2");
     SERVO_COUNT = 0;
   }
-
+  if (loop_count >= TICK_LOOP)
+  {
+    Serial.print("Vueltas en 2 segundos:");
+    Serial.println(loops);
+    loops = 0;
+    loop_count = 0;
+  }
   delay(TICK_DELAY);
   RED_COUNT    += TICK_DELAY;
   GREEN_COUNT  += TICK_DELAY;
