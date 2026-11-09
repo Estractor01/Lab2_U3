@@ -48,7 +48,7 @@ void control_led(uint32_t led, bool &state, const char *name)
 }
 
 // Control y escritura de servos
-void control_servo(Servo Serv, int &pos, int &dir, const char *name)
+void control_servo(Servo &Serv, int &pos, int &dir, const char *name)
 {
   if (pos == 0)
   {
@@ -130,5 +130,6 @@ void loop()
   GREEN_COUNT  += TICK_DELAY;
   BLUE_COUNT   += TICK_DELAY;
   SERVO_COUNT  += TICK_DELAY;
+  loop_count   += TICK_DELAY; 
 }
 
